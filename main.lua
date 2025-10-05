@@ -1,40 +1,270 @@
 lg = love.graphics
 bg = lg.clear
 fg = lg.setColor
+sin = math.sin
+rand = love.math.random
 
 touko = {}
-touko.img = lg.newImage('/assets/chars/touko.png')
+touko.imgdata = love.image.newImageData('/assets/chars/touko.png')
+touko.img = lg.newImage(touko.imgdata)
 touko.font = lg.newFont('/assets/fonts/Super Joyful.ttf',48+8+8)
+touko.fontsmol = lg.newFont('/assets/fonts/Super Joyful.ttf',28+12)
+touko.x,touko.y = 0,sh-touko.img:getHeight()/2
+touko.x=touko.x-touko.img:getWidth()/2-20
 leaf1 = {}
-leaf1.img = lg.newImage('/assets/items/leaf-1.png')
+leaf1.imgdata = love.image.newImageData('/assets/items/leaf-1.png')
+leaf1.img = lg.newImage(leaf1.imgdata)
+leaf1.x,leaf1.y = 400+50,500-200-80-20
 leaf2 = {}
-leaf2.img = lg.newImage('/assets/items/leaf-2.png')
+leaf2.imgdata = love.image.newImageData('/assets/items/leaf-2.png')
+leaf2.img = lg.newImage(leaf2.imgdata)
+leaf2.x,leaf2.y = 700+50,250-100-80-20
 
+leaf1.x = leaf1.x+500; leaf1.y = leaf1.y-450
+leaf2.x = leaf2.x+500; leaf2.y = leaf2.y-450
+leaf1.bx=leaf1.x;leaf2.bx=leaf2.x;leaf1.by=leaf1.y;leaf2.by=leaf2.y
+
+flags = {}
+
+scene = {touko,leaf1,leaf2}
+function scene_clean()
+    for i=#scene,1,-1 do if scene[i].gone then 
+        table.remove(scene,i)
+    end end
+end
+
+bg_img = lg.newImage('/assets/photo/forest-1.jpg')
 main_canvas = lg.newCanvas(sw,sh)
 
 t = 0
-function love.update(dt)
+function freeform(dt)
+    mx,my = love.mouse.getPosition()
+    lastclick = click
+    click = love.mouse.isDown(1)
+
+    for i=#scene,1,-1 do
+        local obj = scene[i]
+        if spriteclick(obj) then
+            love.update = vanish
+            obj.vanishing = 0
+            break
+        end
+    end
+    if flags.leafmove then leaf_move() end
+    if not (love.update==vanish) then script_run() end
+
     t = t+1
+end
+
+love.update = freeform
+
+function vanish(dt)
+    for i,obj in ipairs(scene) do if obj.vanishing then
+        obj.vanishing = obj.vanishing+(obj.img:getHeight()/2-obj.vanishing)*0.1
+        if obj.vanishing>=obj.img:getHeight()/2-1 then 
+            obj.vanishing = nil; obj.gone = true
+            script_signal(obj)
+            love.update = freeform
+        end
+    end end
+    scene_clean()
+end
+
+function read(dt)
+    lastclick = click
+    click = love.mouse.isDown(1)
+    script_run()
+end
+
+script = {i=1,cur={function() end}}
+line = {i=0,t=0,cur=''}
+diagbox = {w1=0,w2=0}
+
+-- these contain functions run once per frame
+-- use script_next() to move on
+scr_hello = {
+    function() if t>=40 then script_next() end end,
+    function() touko.x = touko.x+(0-touko.x)*0.1; if t>=90 then script_next() end end,
+    function() chat('Hmm jaahas! Today I shall collect the entire world!') end,
+    function() chat('I will be respected and remembered!'); if t-sc_t==0 then flags.leafmove = true end end,
+    function() chat('I am the greatest!'); if not flags.leafmove then flags.leafmove = true end end,
+}
+scr_leaf1 = {
+    function() chat('After an arduous quest... I\'ve finally found it.') end,
+    function() chat('A leaf that might unlock my hidden potential..........') end,
+}
+scr_leaf2 = {
+    function() chat('Quite the house of leaves you\'re building here.') end,
+    function() chat('Would be a shame if someone blew on it.............') end,
+}
+scr_selfie = {
+    function() chat('lmao now I\'m in my own inventory') end,
+    function() chat('uuuuuhhh how do I get out actually hmm jaahas............') end,
+}
+
+function chat(ln)
+    if not (ln==line.cur) then
+        line.cur = ln
+        line.i = 0; line.t = 0
+        return
+    end
+
+    if click and not lastclick then
+        love.update = freeform
+        if line.i<#line.cur+1 then line.i = #line.cur+1
+        else script_next() end
+        return
+    end
+
+    -- this can go longer than the length of the line
+    -- because of an animation that's accounted for in line_print.
+    if line.t%2==0 and diagbox.w1>0.5 then line.i = line.i+1 end
+
+    line.t = line.t+1
+end
+
+function script_start(scr)
+    script.cur = scr
+    script.i = 1
+    scr.seen = true
+    sc_t = t
+end
+
+function script_signal(obj)
+    if obj==leaf1 or obj==leaf2 then 
+        if not scr_selfie.seen then
+            if not scr_leaf1.seen then script_start(scr_leaf1)
+            else script_start(scr_leaf2) end
+        end
+    end
+    if obj==touko then script_start(scr_selfie) end
+end
+
+function script_run()
+    local active = script.cur[script.i]
+    if active then active()
+    else line.cur='' end
+end
+
+function script_next()
+    script.i = script.i+1
+    sc_t = t
+    script_run()
+end
+
+script_start(scr_hello)
+
+function leaf_move()
+    leaf1.bx = leaf1.bx - 1.5; leaf1.x = leaf1.bx + sin(t*0.02)*125
+    leaf2.bx = leaf2.bx - 1.5; leaf2.x = leaf2.bx + sin(t*0.021)*120
+    leaf1.by = leaf1.by + 1.15; leaf1.y = leaf1.by + sin(t*0.012)*40
+    leaf2.by = leaf2.by + 1.15; leaf2.y = leaf2.by + sin(t*0.014)*42
 end
 
 function love.draw()
     lg.setCanvas(main_canvas)
         bg(0.8-0.6,0.8-0.6,0.8-0.6,1.0)
+        lg.draw(bg_img,-120,-60)
+
+        fg(0.4-0.15,0.8-0.15,0.5-0.15)
+            if 300*diagbox.w2>1 then
+                lg.circle('fill',200,sh-200-40-70+60/2,60/2)
+                lg.rectangle('fill',200,sh-200-40-70,300*diagbox.w2,60)
+                lg.circle('fill',200+300*diagbox.w2,sh-200-40-70+60/2,60/2)
+            end
+        fg(0.6-0.2,0.6-0.2,0.6-0.2,1)
+            lg.setFont(touko.font)
+            lg.setScissor(200,0,300*diagbox.w2,sh)
+            lg.print('Touko',
+                     200+40+40+40,sh-200-40-70-10+2)
+            lg.setScissor()
 
         fg(0.6-0.2,0.6-0.2,0.6-0.2,1)
-            lg.rectangle('fill',200,sh-200-40,800,200)
-            lg.circle('fill',200+800,sh-200-40+200/2,200/2)
+            if 800*diagbox.w1>1 then
+                lg.circle('fill',200,sh-200-40+200/2,200/2)
+                lg.rectangle('fill',200,sh-200-40,800*diagbox.w1,200)
+                lg.circle('fill',200+800*diagbox.w1,sh-200-40+200/2,200/2)
+            end
         fg(0.4-0.15,0.8-0.15,0.5-0.15)
             lg.setFont(touko.font)
-            lg.print('Hmm jaahas! I\'ll make sure\nto collect the entire world!',
-                     200+40+40+40,sh-200-40+20)
+            if #line.cur>0 then
+                diagbox.w1 = diagbox.w1+(1-diagbox.w1)*0.1
+                diagbox.w2 = diagbox.w2+(1-diagbox.w2)*0.1
+                line_print(200+40+40+40,sh-200-40+20)
+            else
+                diagbox.w1 = diagbox.w1+(0-diagbox.w1)*0.1
+                diagbox.w2 = diagbox.w2+(0-diagbox.w2)*0.1
+            end
+
+        if #line.cur>0 and line.i>=#line.cur+1 then
+            fg(0.4-0.15,0.8-0.15,0.5-0.15)
+                lg.circle('fill',680,sh-50-10+40/2,40/2)
+                lg.rectangle('fill',680,sh-50-10,300,40)
+                lg.circle('fill',680+300,sh-50-10+40/2,40/2)
+            fg(0.6-0.2,0.6-0.2,0.6-0.2,1)
+                lg.setFont(touko.fontsmol)
+                lg.print('Click to advance.',
+                         680+12,sh-50-10-10+4)
+        end
 
         fg(1,1,1,1)
-            lg.draw(touko.img,0,sh-touko.img:getHeight()*0.5,0,0.5,0.5)
-            lg.draw(leaf1.img,400+50,500-200-80,0,0.5,0.5)
-            lg.draw(leaf2.img,700+50,250-100-80,0,0.5,0.5)
+            for i,obj in ipairs(scene) do
+                spritedraw(obj)
+            end
+            for i=#scene,1,-1 do
+                local obj = scene[i]
+                if spritehover(obj) then fg(0.4,1,0.4,1); spritedraw(obj); break end
+            end
 
     lg.setCanvas()
         fg(1,1,1,1)
         lg.draw(main_canvas,0,0)
+end
+
+function line_print(sx,sy)
+    -- animate new line of dialogue
+    local lx,ly = sx,sy
+    for i=1,math.min(line.i,#line.cur) do
+        local char = string.sub(line.cur,i,i)
+        if i==line.i and not (char==' ') then 
+            if not (love.update==vanish) then randchar = string.char(rand(33,126)) end
+            char = randchar
+        end
+        lg.print(char,lx,ly+sin(i*0.82+t*0.12)*2)
+        lx = lx+lg.getFont():getWidth(char)
+        if char==' ' and not line_room(lx-sx,string.sub(line.cur,i+1,#line.cur)) then
+            ly = ly+lg.getFont():getHeight()
+            lx = sx
+        end
+    end
+end
+
+function line_room(linelen,restmsg)
+    -- returns whether next word fits on line.
+    local nextword
+    local nextspace = string.find(restmsg,' ')
+    if not nextspace then nextword = string.sub(restmsg,1,#restmsg) 
+    else nextword = string.sub(restmsg,1,nextspace) end
+    return linelen+lg.getFont():getWidth(nextword) < 740
+end
+
+function spritedraw(obj)
+    -- automatic scaling & rotation around center & vanishing
+    if obj.vanishing then lg.setScissor(obj.x,obj.y+obj.vanishing,obj.img:getWidth()/2,obj.img:getHeight()/2-obj.vanishing) end
+    lg.draw(obj.img,obj.x+obj.img:getWidth()/4,obj.y+obj.img:getHeight()/4,sin(t*0.05)*0.06,0.5,0.5,obj.img:getWidth()/2,obj.img:getHeight()/2)
+    lg.setScissor()
+end
+
+function spritehover(obj)
+    -- returns whether mouse is colliding with non-rotated image.
+    local ix,iy = (mx-obj.x)*2,(my-obj.y)*2
+    if ix>=0 and iy>=0 and ix<obj.img:getWidth() and iy<obj.img:getHeight() then
+        local r,g,b,a = obj.imgdata:getPixel(ix,iy)
+        if a>0 then return true end
+    end
+    return false
+end
+
+function spriteclick(obj)
+    return click and not lastclick and spritehover(obj)
 end
