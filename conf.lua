@@ -1,4 +1,5 @@
-sw,sh=960*1.2,600*1.2
+sw,sh = 960*1.2,600*1.2
+
 function love.conf(t)
     t.window.title = 'by verysoftwares.itch.io'         -- The window title (string)
     t.window.icon = nil                 -- Filepath to an image to use as the window's icon (string)
