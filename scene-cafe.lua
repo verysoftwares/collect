@@ -48,7 +48,7 @@ scr_steal = {
     function() chat('My brother in Christ Lua is an interpreted language.',arska,'brother in christ') end,
 }
 scr_cantpay = {
-    function() brace_interrupt(); chat('May I interest you in this rare artifact?','rare artifact') end,
+    function() brace_interrupt(); chat('May I interest you in this rare artifact?',touko,'rare artifact') end,
     function() chat('You can\'t pay me with something you just stole from me!',arska,'stole from me') end,
     function() chat('You gotta offer some kinda, value proposition.',arska,'value proposition') end,
     function() chat('This is why this city is so ass.',arska,'city is so ass') end,
