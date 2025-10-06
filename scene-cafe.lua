@@ -39,7 +39,7 @@ scr_steal = {
     function() waithard(300-20) end,
     function() chat('your taking too long is taking too long!',arska) end,
     function() chat('My code\'s still compiling.') end,
-    function() chat('Dude Lua is an interpreted language.',arska) end,
+    function() chat('My brother in Christ Lua is an interpreted language.',arska) end,
     function() chat('Oh so you like it when loops begin at 1??') end,
 }
 scr_cantpay = {
@@ -48,8 +48,8 @@ scr_cantpay = {
     function() chat('You gotta offer some kinda, value proposition.',arska) end,
     function() chat('This is why this city is so ass.',arska) end,
     function() chat('It\'s assinine, turboass, assturbo, getcho ass,',arska) end,
-    function() chat('ass-to-ass, ass-backwards, backwards-ass, ass salad,',arska) end,
-    function() chat('assumptious, asstronomy, asswipe, ass master,',arska) end,
+    function() chat('ass-to-ass, ass-backwards, backwards-ass, ass salami,',arska) end,
+    function() chat('assumptious, asstronomy, wipe yo ass, ass master,',arska) end,
     function() chat('got a PhD in ass, ass on the line, 1-800-ASS,',arska) end,
     function() chat('My point being: this is an ass city!',arska) end,
     function() waithard(90); --[[sfx('cheer')]] end,
@@ -57,7 +57,7 @@ scr_cantpay = {
 }
 scr_canileave = {
     function() chat('Soooooo can I leave now??') end,
-    function() chat('dunno lol I don\'t even work here',arska) end,
+    function() chat('dunno lol it\'s not like I work here',arska) end,
     function() scene_launch('home') end,
 }
 

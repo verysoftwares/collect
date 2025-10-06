@@ -38,6 +38,12 @@ function assetload()
         imgsrc(cake,string.format('leaf-%d.png',i))
     end
 
+    touko_smol = {}
+    imgsrc(touko_smol,'touko-smol.png')
+
+    touko_bent = {}
+    imgsrc(touko_bent,'touko-bent.png')
+
     forest_bg = lg.newImage('/assets/photos/forest-1.jpg')    
     cafe_bg = lg.newImage('/assets/photos/cafe-1.jpg')    
     home_bg = lg.newImage('/assets/photos/home-1.jpg')    

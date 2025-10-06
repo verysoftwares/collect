@@ -9,7 +9,7 @@ function softreset()
     script_collect = function(obj) end
     script_use = function(obj) end
 
-    inventory = {i=1,max=3}
+    if not inventory then inventory = {i=1,max=3} end
 
     diagbox = {speaker=touko,w1=0,w2=0}
     line = {cur='',i=0,t=0}

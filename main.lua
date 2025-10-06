@@ -19,7 +19,7 @@ require 'scene-cafe' -- a very silly place.
 bg_col = {r=0.6-0.2,g=0.6-0.2,b=0.6-0.2}
 main_canvas = lg.newCanvas(sw,sh)
 
-scene_launch('cafe') -- showtime.
+scene_launch('forest') -- showtime.
 
 function love.draw()
     lg.setCanvas(main_canvas)

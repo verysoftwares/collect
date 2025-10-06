@@ -81,7 +81,10 @@ end
 
 function brace_interrupt()
     -- to mark scripts as main quests
-    if t-sc_t==0 then script.anyway = script.cur end
+    if t-sc_t==0 then 
+        if script.anyway then script.anyway.i = nil end
+        script.anyway = script.cur 
+    end
 end
 
 function waitsoft(delay)
