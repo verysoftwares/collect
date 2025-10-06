@@ -1,3 +1,11 @@
+scr_invmulti = {
+    function() chat('Left and right keys scroll through items.',touko,'left and right') end,
+    function() if scr_invmulti.next then script_start(scr_invmulti.next); scr_invmulti.next.i = nil end end,
+}
+scr_invfull = {
+    function() chat('Would love to collect that, but inventory\'s full.',touko,'inventory\'s full') end,
+}
+
 function freeform(dt)
     -- default game state
     mx,my = love.mouse.getPosition()
@@ -7,9 +15,13 @@ function freeform(dt)
     for i=#scene,1,-1 do
         local obj = scene[i]
         if spriteclick(obj) then
-            love.update = vanish
-            obj.vanishing = 0
-            return
+            if #inventory>=inventory.max then
+                script_start(scr_invfull)
+            else
+                love.update = vanish
+                obj.vanishing = 0
+                return
+            end
         end
     end
 
@@ -34,6 +46,11 @@ function vanish(dt)
             obj.vanishing = nil; obj.gone = true
             table.insert(inventory,obj); inventory.i = #inventory
             script_collect(obj)
+            if #inventory>1 and not scr_invmulti.seen then
+                scr_invmulti.next = script.cur
+                if scr_invmulti.next then scr_invmulti.next.i = script.i end
+                script_start(scr_invmulti)
+            end
             love.update = freeform
         end
     end end
@@ -63,6 +80,7 @@ end
 
 function scene_clean()
     for i=#scene,1,-1 do if scene[i].gone then 
+        scene[i].gone = false
         table.remove(scene,i)
     end end
 end

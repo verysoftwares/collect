@@ -1,16 +1,15 @@
 -- these contain functions run once per frame
 -- use script_next() to move on
 scr_hello = {
-    --function() if t-sc_t>=40 then script_next() end end,
-    function() brace_interrupt(); waitclick() end,
+    function() brace_interrupt(); waithard(40) end,
     function() appear(touko) end,
     function() chat('Hmm jaahas! Today I shall collect the entire world!',touko,'collect') end,
     function() if t-sc_t==0 then flags.leafmove = true end; chat('I will be respected and remembered!',touko,'respected') end,
-    function() chat('Truly I am the greatest!') end,
+    function() chat('Indeed I am the greatest!',touko,'i am the greatest') end,
 }
 scr_allleaf = {
     function() brace_interrupt(); chat('Alright, I\'ve collected the whole forest.',touko,'collected the whole forest') end,
-    function() chat('I\'m overworked! Better head home...........',touko,'overworked') end,
+    function() chat('I\'m overworked! Better get home...........',touko,'overworked') end,
     function() waitsoft(160) end,
     function() chat('Uuh but how??',touko,'uhh but how') end,
     function() appear(mumina) end,
@@ -41,21 +40,23 @@ scr_leafadmire = {
     function() chat('The tree doesn\'t fall far from the leaf. I think.','tree doesn\'t fall') end,
 }
 scr_ticket = {
-    function() brace_interrupt(); chat('Yup, looks fine to me. Welcome aboard',mumina,'welcome aboard') end,
-    -- maybe this should reset Touko's sprite if we return here ever
-    function() leaf1.x=sw+20; deposit(leaf1) end,
+    function() brace_interrupt(); leaf1.x=sw+20; deposit(leaf1) end,
+    function() chat('Yup, looks fine to me. Welcome aboard',mumina,'welcome aboard') end,
+    function() touko.imgdata = touko_basic.imgdata; touko.img = touko_basic.img; script_next() end,
     function() script_start(scr_ikuso) end,
 }
 scr_ticketbent = {
-    function() brace_interrupt(); chat('Umm it seems a little bit bent.',mumina,'little bit bent') end,
+    function() brace_interrupt(); leaf2.x=sw+20; deposit(leaf2) end,
+    function() chat('Umm it seems a little bit bent.',mumina,'little bit bent') end,
     function() chat('I can work with that. However, can you?',mumina,'i can work with that') end,
-    function() touko.imgdata = touko_bent.imgdata; touko.img = touko_bent.img; leaf2.x=sw+20; deposit(leaf2) end,
+    function() touko.imgdata = touko_bent.imgdata; touko.img = touko_bent.img; sprite_next() end,
     function() chat('Hmm jaahas so this is the new shape of my life............',touko,'new shape of my life') end,
     function() script_start(scr_ikuso) end,
 }
 scr_ticketsmol = {
-    function() brace_interrupt(); chat('It is very smol. Just like you now',mumina,'it is very smol') end,
-    function() touko.y = sh-touko.img:getHeight()/2; touko.imgdata = touko_smol.imgdata; touko.img = touko_smol.img; leaf3.x=sw+20; deposit(leaf3) end,
+    function() brace_interrupt(); leaf3.x=sw+20; deposit(leaf3) end,
+    function() chat('It is very smol. Just like you now',mumina,'it is very smol') end,
+    function() touko.imgdata = touko_smol.imgdata; touko.img = touko_smol.img; touko.y = sh-touko.img:getHeight()/2; script_next(); end,
     function() chat('You are indeed correct I am very smol.',touko,'i am very smol') end,
     function() chat('Note however that I am very bigg.',mumina,'i am very bigg') end,
     function() chat('Yes and very wise too',touko,'very wise too') end,
@@ -67,12 +68,18 @@ scr_ikuso = {
     -- ride into the sunset
     function() scene_launch('home') end,
 }
+scr_worthless = {
+    function() chat('That is worthless to a navigator.',mumina,'worthless') end,
+}
+scr_pickmumina = {
+    function() chat('I thought I was supposed to give YOU a ride.',mumina,'give you a ride') end,
+}
 scr_selfie = {
     function() chat('lmao now I\'m in my own inventory',touko,'in my own inventory') end,
     function() chat('uuuuuhhh how do I get out actually hmm jaahas............',touko,'how do i get out actually') end,
 }
 scr_selfie2 = {
-    function() chat('Fine, I\'ll put myself back.','fine i\'ll put myself back') end,
+    function() chat('Fine, I\'ll put myself back.',touko,'fine i\'ll put myself back') end,
     function() deposit(touko) end,
 }
 
@@ -83,6 +90,7 @@ function forest_collect(obj)
         else flags.leafmove = false; script_start(scr_allleaf) end
     end
 
+    if obj==mumina then script_start(scr_pickmumina) end
     if obj==touko then script_start(scr_selfie) end
 end
 
@@ -92,12 +100,14 @@ function forest_use(obj)
             script_start(scr_leafadmire)
         end
     else 
-        if obj==leaf1 then script_start(scr_ticket) end
-        if obj==leaf2 then script_start(scr_ticketbent) end
-        if obj==leaf3 then script_start(scr_ticketsmol) end
+        if obj==leaf1 then script_start(scr_ticket); flags.ticket = false end
+        if obj==leaf2 then script_start(scr_ticketbent); flags.ticket = false end
+        if obj==leaf3 then script_start(scr_ticketsmol); flags.ticket = false end
+        if obj.id=='map' then script_start(scr_worthless) end
         if obj==banger then end
         if obj==luxus then end
         if obj==mumina then end
+        if obj==touko then end
         -- if not any of these then bring up a bonus video................................................
     end
 
@@ -151,11 +161,11 @@ function leaf_move()
     if (not find(scene,leaf1) or leaf1.y>=sh) and
        (not find(scene,leaf2) or leaf2.y>=sh) and
        (not find(scene,leaf3) or leaf3.y>=sh) then
-        if leaf1.y>=sh and leaf2.y>=sh and leaf3.y>=sh then
-            script_start(scr_noleaf)
-        else
+        --if leaf1.y>=sh and leaf2.y>=sh and leaf3.y>=sh then
+            --script_start(scr_noleaf)
+        --else
             script_start(scr_allleaf)
-        end
+        --end
         flags.leafmove = false
     end
 end

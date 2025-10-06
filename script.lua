@@ -17,6 +17,8 @@ function script_run()
 end
 
 function script_start(scr)
+    if not scr then return end
+
     if cur_voice then cur_voice:stop() end
 
     -- store what was interrupted
@@ -81,9 +83,9 @@ function chat(ln,speaker,voice)
     line.t = line.t+1
 end
 
-function deposit(obj)
+function deposit(obj,home)
     -- helper function intended to be used at the end of inventory clicking scripts.
-    table.remove(inventory,find(inventory,obj)); if #inventory>0 and inventory.i>#inventory then inventory.i=#inventory end; table.insert(scene,obj); obj.gone=false; script_next()
+    table.remove(inventory,find(inventory,obj)); if #inventory>0 and inventory.i>#inventory then inventory.i=#inventory end; table.insert(scene,obj); obj.gone=false; if not home then script_next() end
 end
 
 function brace_interrupt()
@@ -124,6 +126,6 @@ end
 -- a reusable script for returning to what was interrupted.
 -- fun might ensue since this has a variable speaker
 scr_anyway = {
-    function() chat('Anyway.......',diagbox.speaker) end,
+    function() chat('Anyway.......',diagbox.speaker,'anyway') end,
     function() script_start(script.anyway) end,
 }

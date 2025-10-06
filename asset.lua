@@ -17,10 +17,11 @@ function assetload()
     luxus.id = 'Luxus'
     luxus.col = {r=0.8-0.15,g=0.7-0.15,b=0.4-0.15-0.1}
 
+    -- i guess Luxus is filling in for Arska in the demo then.
     arska = {}
     imgsrc(arska,'luxus.png')
     fontsrc(arska,'Extra Snack.ttf')
-    arska.id = 'Arska'
+    arska.id = 'Luxus'
     arska.col = {r=0.8-0.15,g=0.7-0.15,b=0.4-0.15-0.1}
 
     -- so sorry Bundi but you're still in the queue!
@@ -48,15 +49,22 @@ function assetload()
     for i=1,3 do
         local cake = {id='cake'}
         _G[string.format('cake%d',i)] = cake
-        imgsrc(cake,string.format('leaf-%d.png',i))
+        imgsrc(cake,string.format('cake-%d.png',i))
     end
 
+    map_forest = {id='map'}
+    imgsrc(map_forest,'map-forest.png')
+
+    map_cafe = {id='map'}
+    imgsrc(map_cafe,'map-cafe.png')
+
+    map_cafe.homex = sw-map_cafe.img:getWidth()/2; map_cafe.homey = sh-200-40-map_cafe.img:getHeight()/2
+    map_forest.homex = map_cafe.homex-map_forest.img:getWidth()/2; map_forest.homey = sh-200-40-map_forest.img:getHeight()/2
+
     touko_basic = {}
-    imgsrc(touko_basic,'touko.png')
-    
+    imgsrc(touko_basic,'touko.png')    
     touko_smol = {}
     imgsrc(touko_smol,'touko-smol.png')
-
     touko_bent = {}
     imgsrc(touko_bent,'touko-bent.png')
 
@@ -66,10 +74,10 @@ function assetload()
         sounds[v] = love.audio.newSource('/assets/sounds/'..v,'static')
     end
 
-    forest_bg = lg.newImage('/assets/photos/forest-1.jpg')    
-    cafe_bg = lg.newImage('/assets/photos/cafe-1.jpg')    
-    home_bg = lg.newImage('/assets/photos/home-1.jpg')
-    wild_bg = lg.newImage('/assets/photos/wild-1.jpg')    
+    forest_bg = lg.newImage('/assets/photos/forest-1.png')    
+    cafe_bg = lg.newImage('/assets/photos/cafe-1.png')
+    home_bg = lg.newImage('/assets/photos/home-1.png')
+    --wild_bg = lg.newImage('/assets/photos/wild-1.png')    
     -- not in demo
     --shower_bg = lg.newImage('/assets/photos/shower-1.jpg')    
 end
