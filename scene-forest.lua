@@ -2,8 +2,8 @@
 -- use script_next() to move on
 scr_hello = {
     --function() if t-sc_t>=40 then script_next() end end,
-    function() brace_interrupt(); if click and not lastclick then script_next() end end,
-    function() touko.x = touko.x+(0-touko.x)*0.1; if t-sc_t>=50 then script_next() end end,
+    function() brace_interrupt(); waitclick() end,
+    function() appear(touko) end,
     function() chat('Hmm jaahas! Today I shall collect the entire world!') end,
     function() chat('I will be respected and remembered!'); if t-sc_t==0 then flags.leafmove = true end end,
     function() chat('Truly I am the greatest!'); if not flags.leafmove then flags.leafmove = true end end,
@@ -13,7 +13,8 @@ scr_leaf3 = {
     function() chat('I\'m overworked! Better head home...........') end,
     function() waitsoft(160) end,
     function() chat('Uuh but how??') end,
-    function() mumina.x=mumina.x+(sw-mumina.img:getWidth()/2-mumina.x)*0.1; chat('Need a ride?',mumina) end,
+    function() appear(mumina) end,
+    function() chat('Need a ride?',mumina) end,
     function() chat('How much will it cost?') end,
     function() chat('I don\'t knooooow how much',mumina) end,
     function() chat('I don\'t really do numbers',mumina) end,
@@ -43,7 +44,7 @@ scr_selfie2 = {
 }
 
 function forest_collect(obj)
-    if obj==leaf1 or obj==leaf2 or obj==leaf3 then 
+    if obj.id=='leaf' then 
         if not scr_selfie.seen then
             if not scr_leaf1.seen then script_start(scr_leaf1)
             elseif not scr_leaf2.seen then script_start(scr_leaf2)
@@ -54,7 +55,7 @@ function forest_collect(obj)
 end
 
 function forest_use(obj)
-    if obj==leaf1 or obj==leaf2 or obj==leaf3 then
+    if obj.id=='leaf' then
         script_start(scr_leafadmire)
     end
     if obj==touko then script_start(scr_selfie2) end
@@ -63,7 +64,7 @@ end
 function forest_reset()
     bg_img = forest_bg
 
-    scene = {touko,leaf1,leaf2,leaf3,mumina}
+    scene = {touko,leaf1,leaf2,leaf3,mumina,luxus,banger}
 
     touko.x,touko.y = 0,sh-touko.img:getHeight()/2
     touko.x = touko.x-touko.img:getWidth()/2-20

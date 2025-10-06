@@ -12,12 +12,14 @@ require 'state' -- love.update functions.
 require 'misc' -- leftover functions.
 
 require 'scene' -- general scene transition functions.
-require 'scene-forest' -- implements forest scripting.
+require 'scene-forest' -- starting area scripting.
+require 'scene-home' -- hub area scripting.
+require 'scene-cafe' -- a very silly place.
 
 bg_col = {r=0.6-0.2,g=0.6-0.2,b=0.6-0.2}
 main_canvas = lg.newCanvas(sw,sh)
 
-scene_launch('forest') -- showtime.
+scene_launch('cafe') -- showtime.
 
 function love.draw()
     lg.setCanvas(main_canvas)

@@ -100,6 +100,17 @@ function waithard(delay)
     end 
 end
 
+function waitclick()
+    if click and not lastclick then script_next() end
+end
+
+function appear(obj)
+    if obj==touko then obj.x = obj.x+(0-obj.x)*0.1
+    else obj.x = obj.x+(sw-obj.img:getWidth()/2-obj.x)*0.1 end
+
+    if t-sc_t>=60 then script_next() end
+end
+
 -- a reusable script for returning to what was interrupted.
 -- fun might ensue since this has a variable speaker
 scr_anyway = {

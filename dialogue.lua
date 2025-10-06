@@ -27,7 +27,7 @@ function dialoguedraw()
             if #line.cur>0 then
                 diagbox.w1 = diagbox.w1+(1-diagbox.w1)*0.1
                 diagbox.w2 = diagbox.w2+(1-diagbox.w2)*0.1
-                lineprint(200+40+40+40,sh-200-40+20)
+                lineprint(200+40+40+40,sh-200-40+10)
             else
                 diagbox.w1 = diagbox.w1+(0-diagbox.w1)*0.1
                 diagbox.w2 = diagbox.w2+(0-diagbox.w2)*0.1

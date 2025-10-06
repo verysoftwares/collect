@@ -24,5 +24,8 @@ end
 function scene_launch(id)
     softreset()
 
+    -- could do the _G['%s_reset'] thing but i like seeing progress
     if id=='forest' then forest_reset() end
+    if id=='cafe' then cafe_reset() end
+    if id=='home' then home_reset() end
 end
