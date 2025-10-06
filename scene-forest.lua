@@ -9,16 +9,16 @@ scr_hello = {
     function() chat('Truly I am the greatest!') end,
 }
 scr_allleaf = {
-    function() brace_interrupt(); chat('Alright, I\'ve collected the whole forest.') end,
-    function() chat('I\'m overworked! Better head home...........') end,
+    function() brace_interrupt(); chat('Alright, I\'ve collected the whole forest.',touko,'collected the whole forest') end,
+    function() chat('I\'m overworked! Better head home...........',touko,'overworked') end,
     function() waitsoft(160) end,
-    function() chat('Uuh but how??') end,
+    function() chat('Uuh but how??',touko,'uhh but how') end,
     function() appear(mumina) end,
-    function() chat('Need a ride?',mumina) end,
-    function() chat('How much will it cost?') end,
-    function() chat('I don\'t knooooow how much',mumina) end,
-    function() chat('Cause I don\'t really do numbers',mumina) end,
-    function() if t-sc_t==0 then flags.ticket = true end; chat('But just flash some kinda ticket',mumina) end,
+    function() chat('Need a ride?',mumina,'need a ride') end,
+    function() chat('How much will it cost.',touko,'how much will it cost') end,
+    function() chat('I don\'t knooooow how much',mumina,'don\'t know how much') end,
+    function() chat('Cause I don\'t really do numbers',mumina,'don\'t really do numbers') end,
+    function() if t-sc_t==0 then flags.ticket = true end; chat('But just flash some kinda ticket',mumina,'flash some kinda ticket') end,
     function() waithard(400) end,
     -- offer something here or face madness
     function() chat('You can också pay in nature',mumina) end,
@@ -30,49 +30,49 @@ scr_noleaf = {
     function() if t-sc_t==0 then luxus.id='Luxus' end; chat('I need to sample their rustling for my banger',luxus) end,
 }
 scr_leaf1 = {
-    function() chat('Such an arduous quest... but I\'ve finally found it.') end,
-    function() chat('A leaf that might unlock my hidden potential..........') end,
+    function() chat('Such an arduous quest... but I\'ve finally found it.',touko,'arduous quest') end,
+    function() chat('A leaf that might unlock my hidden potential..........',touko,'hidden potential') end,
 }
 scr_leaf2 = {
-    function() chat('Quite the house of leaves you\'re building here.') end,
-    function() chat('Would be a shame if someone blew on it.............') end,
+    function() chat('Quite the house of leaves you\'re building here.',touko,'house of leaves') end,
+    function() chat('Would be a shame if someone blew on it.............',touko,'would be a shame') end,
 }
 scr_leafadmire = {
-    function() chat('The tree doesn\'t fall far from the leaf. I think.') end,
+    function() chat('The tree doesn\'t fall far from the leaf. I think.','tree doesn\'t fall') end,
 }
 scr_ticket = {
-    function() brace_interrupt(); chat('Yup, looks fine to me. Welcome aboard',mumina) end,
+    function() brace_interrupt(); chat('Yup, looks fine to me. Welcome aboard',mumina,'welcome aboard') end,
     -- maybe this should reset Touko's sprite if we return here ever
     function() leaf1.x=sw+20; deposit(leaf1) end,
     function() script_start(scr_ikuso) end,
 }
 scr_ticketbent = {
-    function() brace_interrupt(); chat('Umm it seems a little bit bent.',mumina) end,
-    function() chat('I can work with that. However, can you?',mumina) end,
+    function() brace_interrupt(); chat('Umm it seems a little bit bent.',mumina,'little bit bent') end,
+    function() chat('I can work with that. However, can you?',mumina,'i can work with that') end,
     function() touko.imgdata = touko_bent.imgdata; touko.img = touko_bent.img; leaf2.x=sw+20; deposit(leaf2) end,
-    function() chat('Hmm jaahas so this is the new shape of my life............') end,
+    function() chat('Hmm jaahas so this is the new shape of my life............',touko,'new shape of my life') end,
     function() script_start(scr_ikuso) end,
 }
 scr_ticketsmol = {
-    function() brace_interrupt(); chat('It is very smol. Just like you now',mumina) end,
+    function() brace_interrupt(); chat('It is very smol. Just like you now',mumina,'it is very smol') end,
     function() touko.y = sh-touko.img:getHeight()/2; touko.imgdata = touko_smol.imgdata; touko.img = touko_smol.img; leaf3.x=sw+20; deposit(leaf3) end,
-    function() chat('You are indeed correct I am very smol.') end,
-    function() chat('Note however that I am very bigg.',mumina) end,
-    function() chat('Yes and very wise too') end,
+    function() chat('You are indeed correct I am very smol.',touko,'i am very smol') end,
+    function() chat('Note however that I am very bigg.',mumina,'i am very bigg') end,
+    function() chat('Yes and very wise too',touko,'very wise too') end,
     function() script_start(scr_ikuso) end,
 }
 scr_ikuso = {
-    function() brace_interrupt(); chat('Alright, shall we go?',mumina) end,
+    function() brace_interrupt(); chat('Alright, shall we go?',mumina,'shall we go') end,
     -- hop on Mumina
     -- ride into the sunset
     function() scene_launch('home') end,
 }
 scr_selfie = {
-    function() chat('lmao now I\'m in my own inventory') end,
-    function() chat('uuuuuhhh how do I get out actually hmm jaahas............') end,
+    function() chat('lmao now I\'m in my own inventory',touko,'in my own inventory') end,
+    function() chat('uuuuuhhh how do I get out actually hmm jaahas............',touko,'how do i get out actually') end,
 }
 scr_selfie2 = {
-    function() chat('Fine, I\'ll put myself back.') end,
+    function() chat('Fine, I\'ll put myself back.','fine i\'ll put myself back') end,
     function() deposit(touko) end,
 }
 
