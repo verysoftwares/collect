@@ -2,19 +2,25 @@
 -- use script_next() to move on
 scr_hello = {
     --function() if t-sc_t>=40 then script_next() end end,
-    function() if t-sc_t==0 then script.anyway = script.cur end; if click and not lastclick then script_next() end end,
+    function() brace_interrupt(); if click and not lastclick then script_next() end end,
     function() touko.x = touko.x+(0-touko.x)*0.1; if t-sc_t>=50 then script_next() end end,
     function() chat('Hmm jaahas! Today I shall collect the entire world!') end,
     function() chat('I will be respected and remembered!'); if t-sc_t==0 then flags.leafmove = true end end,
     function() chat('Truly I am the greatest!'); if not flags.leafmove then flags.leafmove = true end end,
 }
 scr_leaf3 = {
-    function() if t-sc_t==0 then script.anyway = script.cur end; chat('Alright, I\'ve collected the whole forest.') end,
+    function() brace_interrupt(); chat('Alright, I\'ve collected the whole forest.') end,
     function() chat('I\'m overworked! Better head home...........') end,
-    function() if t-sc_t==0 then line.cur='' end; if (t-sc_t==160) or (click and not lastclick) then script_next() end end,
+    function() waitsoft(160) end,
     function() chat('Uuh but how??') end,
     function() mumina.x=mumina.x+(sw-mumina.img:getWidth()/2-mumina.x)*0.1; chat('Need a ride?',mumina) end,
     function() chat('How much will it cost?') end,
+    function() chat('I don\'t knooooow how much',mumina) end,
+    function() chat('I don\'t really do numbers',mumina) end,
+    function() chat('But just flash some kinda ticket',mumina) end,
+    function() waithard(300) end,
+    function() chat('You can också pay in nature',mumina) end,
+    function() chat('I will ponder the deep meaning behind your words......') end,
 }
 scr_leaf1 = {
     function() chat('Such an arduous quest... but I\'ve finally found it.') end,

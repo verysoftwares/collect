@@ -30,10 +30,10 @@ function script_start(scr)
 
     script.cur = scr
     script.i = scr.i or 1
-    if scr==script.anyway then
-        script.anyway.i = nil
-        script.anyway = nil
-    end
+    --if scr==script.anyway then
+        --script.anyway.i = nil
+        --script.anyway = nil
+    --end
     scr.seen = true
     sc_t = t
 end
@@ -77,6 +77,27 @@ end
 function deposit(obj)
     -- helper function intended to be used at the end of inventory clicking scripts.
     table.remove(inventory,find(inventory,obj)); if #inventory>0 and inventory.i>#inventory then inventory.i=#inventory end; table.insert(scene,obj); obj.gone=false; script_next()
+end
+
+function brace_interrupt()
+    -- to mark scripts as main quests
+    if t-sc_t==0 then script.anyway = script.cur end
+end
+
+function waitsoft(delay)
+    -- delay, can be hurried with clicking
+    if t-sc_t==0 then line.cur='' end
+    if (t-sc_t>=delay) or (t-sc_t>0 and click and not lastclick) then 
+        script_next() 
+    end 
+end
+
+function waithard(delay)
+    -- mean delay
+    if t-sc_t==0 then line.cur='' end
+    if (t-sc_t>=delay) then
+        script_next() 
+    end 
 end
 
 -- a reusable script for returning to what was interrupted.
