@@ -5,8 +5,8 @@ scr_hello = {
     function() brace_interrupt(); waitclick() end,
     function() appear(touko) end,
     function() chat('Hmm jaahas! Today I shall collect the entire world!') end,
-    function() chat('I will be respected and remembered!'); if t-sc_t==0 then flags.leafmove = true end end,
-    function() chat('Truly I am the greatest!'); if not flags.leafmove then flags.leafmove = true end end,
+    function() if t-sc_t==0 then flags.leafmove = true end; chat('I will be respected and remembered!') end,
+    function() chat('Truly I am the greatest!') end,
 }
 scr_allleaf = {
     function() brace_interrupt(); chat('Alright, I\'ve collected the whole forest.') end,
@@ -82,19 +82,25 @@ function forest_collect(obj)
         elseif not scr_leaf2.seen then script_start(scr_leaf2)
         else flags.leafmove = false; script_start(scr_allleaf) end
     end
+
     if obj==touko then script_start(scr_selfie) end
 end
 
 function forest_use(obj)
-    if obj.id=='leaf' then
-        if not flags.ticket then script_start(scr_leafadmire)
-        else 
-            if obj==leaf1 then script_start(scr_ticket) end
-            if obj==leaf2 then script_start(scr_ticketbent) end
-            if obj==leaf3 then script_start(scr_ticketsmol) end
-            -- if not any of these then bring up a bonus video................................................
+    if not flags.ticket then
+        if obj.id=='leaf' then
+            script_start(scr_leafadmire)
         end
+    else 
+        if obj==leaf1 then script_start(scr_ticket) end
+        if obj==leaf2 then script_start(scr_ticketbent) end
+        if obj==leaf3 then script_start(scr_ticketsmol) end
+        if obj==banger then end
+        if obj==luxus then end
+        if obj==mumina then end
+        -- if not any of these then bring up a bonus video................................................
     end
+
     if obj==touko then script_start(scr_selfie2) end
 end
 
