@@ -17,6 +17,8 @@ function script_run()
 end
 
 function script_start(scr)
+    if cur_voice then cur_voice:stop() end
+
     -- store what was interrupted
     if script.cur==script.anyway then
         if linedone() then 
@@ -39,12 +41,13 @@ function script_start(scr)
 end
 
 function script_next()
+    if cur_voice then cur_voice:stop() end
     script.i = script.i+1
     sc_t = t
     script_run()
 end
 
-function chat(ln,speaker)
+function chat(ln,speaker,voice)
     -- function to process a line of dialogue 
     -- called every frame while the line is active
     -- drawing happens in dialogue.lua/lineprint
@@ -55,6 +58,10 @@ function chat(ln,speaker)
         line.i = 0; line.t = 0
         speaker = speaker or touko
         diagbox.speaker = speaker
+        if voice and not (cur_voice==sounds[voice..'.ogg']) then 
+            cur_voice = sounds[voice..'.ogg']
+            cur_voice:play()
+        end
         return
     end
 

@@ -23,6 +23,19 @@ function assetload()
     arska.id = 'Arska'
     arska.col = {r=0.8-0.15,g=0.7-0.15,b=0.4-0.15-0.1}
 
+    -- so sorry Bundi but you're still in the queue!
+    --bundi = {}
+    --imgsrc(bundi,'luxus.png')
+    --fontsrc(bundi,'GELOMBANG.ttf')
+    --bundi.id = 'Bundi'
+    --bundi.col = {r=0.8-0.15,g=0.7-0.15,b=0.6-0.15-0.1}
+
+    laine = {}
+    imgsrc(laine,'luxus.png')
+    fontsrc(laine,'Ponari.ttf')
+    laine.id = 'Laine'
+    laine.col = {r=0.8-0.15,g=0.9-0.15,b=0.6-0.15-0.1}
+
     banger = {}
     imgsrc(banger,'banger.png')
 
@@ -38,16 +51,27 @@ function assetload()
         imgsrc(cake,string.format('leaf-%d.png',i))
     end
 
+    touko_basic = {}
+    imgsrc(touko_basic,'touko.png')
+    
     touko_smol = {}
     imgsrc(touko_smol,'touko-smol.png')
 
     touko_bent = {}
     imgsrc(touko_bent,'touko-bent.png')
 
+    sounds = {}
+    soundfiles = love.filesystem.getDirectoryItems('/assets/sounds/')
+    for i,v in ipairs(soundfiles) do
+        sounds[v] = love.audio.newSource('/assets/sounds/'..v,'static')
+    end
+
     forest_bg = lg.newImage('/assets/photos/forest-1.jpg')    
     cafe_bg = lg.newImage('/assets/photos/cafe-1.jpg')    
-    home_bg = lg.newImage('/assets/photos/home-1.jpg')    
-    shower_bg = lg.newImage('/assets/photos/shower-1.jpg')    
+    home_bg = lg.newImage('/assets/photos/home-1.jpg')
+    wild_bg = lg.newImage('/assets/photos/wild-1.jpg')    
+    -- not in demo
+    --shower_bg = lg.newImage('/assets/photos/shower-1.jpg')    
 end
 
 function imgsrc(obj,src)

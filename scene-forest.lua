@@ -4,8 +4,8 @@ scr_hello = {
     --function() if t-sc_t>=40 then script_next() end end,
     function() brace_interrupt(); waitclick() end,
     function() appear(touko) end,
-    function() chat('Hmm jaahas! Today I shall collect the entire world!') end,
-    function() if t-sc_t==0 then flags.leafmove = true end; chat('I will be respected and remembered!') end,
+    function() chat('Hmm jaahas! Today I shall collect the entire world!',touko,'collect') end,
+    function() if t-sc_t==0 then flags.leafmove = true end; chat('I will be respected and remembered!',touko,'respected') end,
     function() chat('Truly I am the greatest!') end,
 }
 scr_allleaf = {
@@ -38,7 +38,7 @@ scr_leaf2 = {
     function() chat('Would be a shame if someone blew on it.............') end,
 }
 scr_leafadmire = {
-    function() chat('Truly, it is the child of a tree.') end,
+    function() chat('The tree doesn\'t fall far from the leaf. I think.') end,
 }
 scr_ticket = {
     function() brace_interrupt(); chat('Yup, looks fine to me. Welcome aboard',mumina) end,
