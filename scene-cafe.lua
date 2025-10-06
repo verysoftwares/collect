@@ -22,9 +22,9 @@ scr_steal = {
     function() brace_interrupt(); chat('Well uuhhh guess I can\'t carry anything more.') end,
     function() appear(arska) end,
     function() if t-sc_t==0 then flags.steal = true end; chat('Aaand how you gonna pay for all that.',arska) end,
-    function() chat('Show some.',arska) end,
-    function() chat('Show some.',arska) end,
-    function() chat('This is usually where .',arska) end,
+    function() chat('Show some wares.',arska) end,
+    function() waithard(300) end,
+    function() chat('This is usually where part where people pay me.',arska) end,
 }
 scr_cantpay = {
     function() brace_interrupt(); chat('May I interest you in this rare artifact?') end,
