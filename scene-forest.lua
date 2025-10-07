@@ -18,7 +18,7 @@ scr_allleaf = {
     function() chat('I don\'t knooooow how much',mumina,'don\'t know how much') end,
     function() chat('Cause I don\'t really do numbers',mumina,'don\'t really do numbers') end,
     function() if t-sc_t==0 then flags.ticket = true end; chat('But just flash some kinda ticket',mumina,'flash some kinda ticket') end,
-    function() waithard(400) end,
+    --function() waithard(400) end,
     -- offer something here or face madness
     --function() chat('You can också pay in nature',mumina) end,
     --function() chat('I will ponder the deep meaning behind your words......') end,
