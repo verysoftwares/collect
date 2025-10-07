@@ -42,7 +42,7 @@ scr_leafadmire = {
 scr_ticket = {
     function() brace_interrupt(); leaf1.x=sw+20; deposit(leaf1) end,
     function() chat('Yup, looks fine to me. Welcome aboard',mumina,'welcome aboard') end,
-    function() touko.imgdata = touko_basic.imgdata; touko.img = touko_basic.img; script_next() end,
+    function() touko.imgdata = touko_basic.imgdata; touko.img = touko_basic.img; touko.y = sh-touko.img:getHeight()/2; script_next() end,
     function() script_start(scr_ikuso) end,
 }
 scr_ticketbent = {
