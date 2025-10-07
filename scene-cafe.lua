@@ -44,7 +44,7 @@ scr_steal = {
     function() chat('mm',arska,'mm'); waithard(30) end,
     function() waithard(300-20) end,
     function() chat('your taking too long is taking too long!',arska,'your taking too long') end,
-    function() chat('My code\'s still compiling.','compiling') end,
+    function() chat('My code\'s still compiling.',touko,'compiling') end,
     function() chat('My brother in Christ Lua is an interpreted language.',arska,'brother in christ') end,
 }
 scr_cantpay = {
