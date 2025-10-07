@@ -20,8 +20,8 @@ scr_allleaf = {
     function() if t-sc_t==0 then flags.ticket = true end; chat('But just flash some kinda ticket',mumina,'flash some kinda ticket') end,
     function() waithard(400) end,
     -- offer something here or face madness
-    function() chat('You can också pay in nature',mumina) end,
-    function() chat('I will ponder the deep meaning behind your words......') end,
+    --function() chat('You can också pay in nature',mumina) end,
+    --function() chat('I will ponder the deep meaning behind your words......') end,
 }
 scr_noleaf = {
     function() brace_interrupt(); if t-sc_t==0 then luxus.id='???' end; chat('Nooo don\'t let the leaves go to waste',luxus) end,
@@ -37,7 +37,7 @@ scr_leaf2 = {
     function() chat('Would be a shame if someone blew on it.............',touko,'would be a shame') end,
 }
 scr_leafadmire = {
-    function() chat('The tree doesn\'t fall far from the leaf. I think.','tree doesn\'t fall') end,
+    function() chat('The tree doesn\'t fall far from the leaf. I think.',touko,'tree doesn\'t fall') end,
 }
 scr_ticket = {
     function() brace_interrupt(); leaf1.x=sw+20; deposit(leaf1) end,
