@@ -49,7 +49,7 @@ scr_ticketbent = {
     function() brace_interrupt(); leaf2.x=sw+20; deposit(leaf2) end,
     function() chat('Umm it seems a little bit bent.',mumina,'little bit bent') end,
     function() chat('I can work with that. However, can you?',mumina,'i can work with that') end,
-    function() touko.imgdata = touko_bent.imgdata; touko.img = touko_bent.img; sprite_next() end,
+    function() touko.imgdata = touko_bent.imgdata; touko.img = touko_bent.img; script_next() end,
     function() chat('Hmm jaahas so this is the new shape of my life............',touko,'new shape of my life') end,
     function() script_start(scr_ikuso) end,
 }
